@@ -28,6 +28,9 @@ jobs:
       - run: 
           name: go test
           command: go test -v ./...
+      - run:
+          name: go build
+          command: go build
 
       - store_artifacts:
           path: ./test-repo
