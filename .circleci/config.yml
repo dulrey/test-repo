@@ -30,6 +30,10 @@ jobs:
       - run:
           name: go build
           command: go build
+      - run:
+          name: "AWS Region"
+          command: echo $AWS_REGION
+
       - aws-s3/copy:
           from: test-repo
           to: 's3://circleci-test-dan'
