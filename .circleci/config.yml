@@ -28,3 +28,7 @@ jobs:
       - run: 
           name: go test
           command: go test -v ./...
+
+      - store_artifacts:
+          path: ./test-repo
+          destination: go-binary
