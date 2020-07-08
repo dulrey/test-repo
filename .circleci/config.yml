@@ -31,7 +31,12 @@ jobs:
       - run:
           name: go build
           command: go build
-
-      - store_artifacts:
-          path: ./test-repo
-          destination: go-binary
+      - aws-s3/copy:
+          aws-access-key-id: ${AWS_ACCESS_KEY_ID}
+          aws-region: us-east-1
+          aws-secret-access-key: ${AWS_SECRET_ACCESS_KEY}
+          from: ./test-repo
+          to: 's3://circleci-test-dan'
+orbs:
+  aws-s3: circleci/aws-s3@x.y
+version: 2.1
