@@ -34,7 +34,7 @@ jobs:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-region: AWS_REGION
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          from: ./test-repo
+          from: test-repo
           to: 's3://circleci-test-dan'
 orbs:
   aws-s3: circleci/aws-s3@1.0.15
