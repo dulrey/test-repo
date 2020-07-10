@@ -1,19 +1,27 @@
 version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.10.0
-jobs:
-  build:
+
+  executors:
+  my-executor:
     docker:
       - image: circleci/golang:1.9
     working_directory: /go/src/github.com/dulrey/test-repo
+
+jobs:
+  build:
+    executor: my-executor
     steps:
       - checkout
-      - run:
-          name: go build
-          command: go build hello.go
+      - run: mkdir bin
+      - run: go build -o bin hello.go
+
+      - persist_to_workspace:
+        root: bin
+        paths:
+          - hello
   test:
-    docker:
-      - image: circleci/golang:1.9
+    executor: my-executor
     steps:
       - checkout
       - run: 
@@ -30,6 +38,9 @@ workflows:
       - aws-ecr/build-and-push-image:
           requires:
             - test
+          pre-steps:
+            - attach_workspace:
+              at: /go/src/github.com/dulrey/test-repo/bin
           account-url: AWS_ECR_ACCOUNT_URL
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
