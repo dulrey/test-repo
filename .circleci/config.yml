@@ -13,40 +13,41 @@ jobs:
     executor: my-executor
     steps:
       - checkout
-      - run: mkdir -p /tmp/workspace
       - run: go build hello.go
-      - run: mv hello /tmp/workspace
-      - run: mv Dockerfile /tmp/Dockerfile
-      - persist_to_workspace:
-          root: /tmp/workspace
-          paths: 
-            - hello
-            - Dockerfile
-  
-  test:
-    executor: my-executor
-    steps:
-      - checkout
+      # - persist_to_workspace:
+      #     root: /tmp/workspace
+      #     paths: 
+      #       - hello
+      #       - Dockerfile
+
       - run: 
           name: go test
           command: go test -v ./...
 
-workflows:
-  build_test_docker_build_and_push:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
       - aws-ecr/build-and-push-image:
-          requires:
-            - test
           checkout: false
-          workspace-root: /tmp/workspace
           account-url: AWS_ECR_ACCOUNT_URL
-          attach-workspace: true
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           region: AWS_REGION
           repo: circleci-test
-          path: /tmp/workspace
+
+# workflows:
+#   build_test_docker_build_and_push:
+#     jobs:
+#       - build
+#       - test:
+#           requires:
+#             - build
+#       - aws-ecr/build-and-push-image:
+#           requires:
+#             - test
+#           checkout: false
+#           workspace-root: /tmp/workspace
+#           account-url: AWS_ECR_ACCOUNT_URL
+#           attach-workspace: true
+#           aws-access-key-id: AWS_ACCESS_KEY_ID
+#           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+#           region: AWS_REGION
+#           repo: circleci-test
+#           path: /tmp/workspace

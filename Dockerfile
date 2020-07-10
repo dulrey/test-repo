@@ -1,6 +1,6 @@
 FROM golang:alpine
 
 RUN mkdir /app
-COPY /tmp/workspace/hello /app/hello
+COPY hello /app/hello
 
 CMD ["/app/hello"]
