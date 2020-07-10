@@ -39,7 +39,7 @@ workflows:
       - aws-ecr/build-and-push-image:
           requires:
             - test
-          workspace-root: /go/src/github.com/dulrey/test-repo
+          workspace-root: /go/src/github.com/dulrey/test-repo/bin
           account-url: AWS_ECR_ACCOUNT_URL
           attach-workspace: true
           aws-access-key-id: AWS_ACCESS_KEY_ID
