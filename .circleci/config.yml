@@ -21,12 +21,10 @@ jobs:
           command: go test -v ./...
 
 workflows:
-  build_and_test:
+  build_test_docker_build_and_push:
     jobs:
       - build
       - test
-  build_and_push_image:
-    jobs:
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL
           aws-access-key-id: AWS_ACCESS_KEY_ID
