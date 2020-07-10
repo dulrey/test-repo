@@ -15,7 +15,7 @@ jobs:
       - checkout
       - run: mkdir -p /tmp/workspace
       - run: go build hello.go
-      - run: mv hello tmp/
+      - run: mv hello /tmp/workspace
       - persist_to_workspace:
           root: /tmp/workspace
           paths: hello
