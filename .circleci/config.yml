@@ -36,3 +36,4 @@ workflows:
           region: AWS_REGION
           repo: circleci-test
           tag: 'latest,myECRRepoTag'
+          path: 'haha'
