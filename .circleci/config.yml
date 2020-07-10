@@ -13,15 +13,12 @@ jobs:
     executor: my-executor
     steps:
       - checkout
-      - run: go build hello.go
-      # - persist_to_workspace:
-      #     root: /tmp/workspace
-      #     paths: 
-      #       - hello
-      #       - Dockerfile
+      - run: 
+          name: build
+          command: go build hello.go
 
       - run: 
-          name: go test
+          name: test
           command: go test -v ./...
 
       - aws-ecr/build-and-push-image:
@@ -32,24 +29,3 @@ jobs:
           region: AWS_REGION
           setup-remote-docker: true
           repo: circleci-test
-          create-repo: true
-
-# workflows:
-#   build_test_docker_build_and_push:
-#     jobs:
-#       - build
-#       - test:
-#           requires:
-#             - build
-#       - aws-ecr/build-and-push-image:
-#           requires:
-#             - test
-#           checkout: false
-#           workspace-root: /tmp/workspace
-#           account-url: AWS_ECR_ACCOUNT_URL
-#           attach-workspace: true
-#           aws-access-key-id: AWS_ACCESS_KEY_ID
-#           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-#           region: AWS_REGION
-#           repo: circleci-test
-#           path: /tmp/workspace
