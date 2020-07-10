@@ -7,6 +7,8 @@ executors:
     docker:
       - image: circleci/golang:1.9
     working_directory: /go/src/github.com/dulrey/test-repo
+  my-executor2:
+    working_directory: /go/src/github.com/dulrey/test-repo
 
 jobs:
   build:
@@ -37,8 +39,8 @@ workflows:
       - aws-ecr/build-and-push-image:
           requires:
             - test
+            executor: my-executor2
           pre-steps:
-            working_directory: /go/src/github.com/dulrey/test-repo
             - attach_workspace:
                 at: /go/src/github.com/dulrey/test-repo/bin
           account-url: AWS_ECR_ACCOUNT_URL
