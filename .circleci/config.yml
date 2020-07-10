@@ -9,7 +9,7 @@ executors:
     working_directory: /go/src/github.com/dulrey/test-repo
 
 jobs:
-  build_test_push:
+  build:
     executor: my-executor
     steps:
       - checkout
