@@ -29,3 +29,4 @@ jobs:
           region: AWS_REGION
           setup-remote-docker: true
           repo: circleci-test
+          tag: ${CIRCLE_BRANCH}
