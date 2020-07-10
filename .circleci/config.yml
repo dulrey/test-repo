@@ -32,6 +32,7 @@ jobs:
           region: AWS_REGION
           setup-remote-docker: true
           repo: circleci-test
+          create-repo: true
 
 # workflows:
 #   build_test_docker_build_and_push:
