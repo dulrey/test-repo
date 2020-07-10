@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@6.10.0
 jobs:
   build:
     docker:
@@ -13,19 +15,21 @@ jobs:
     docker:
       - image: circleci/golang:1.9
     steps:
+      - checkout
       - run: 
-        name: go test
-        command: go test -v ./...
+          name: go test
+          command: go test -v ./...
 
 workflows:
-  build_and_push_image:
+  build_and_test:
     jobs:
       - build
       - test
+  build_and_push_image:
+    jobs:
       - aws-ecr/build-and-push-image:
           account-url: AWS_ECR_ACCOUNT_URL
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
-          # profile-name: myProfileName
           region: AWS_REGION
           repo: circleci-test
