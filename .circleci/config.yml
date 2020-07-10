@@ -13,11 +13,11 @@ jobs:
     executor: my-executor
     steps:
       - checkout
-      - run: mkdir -p /tmp/workspace
+      - run: mkdir -p /go/src/github.com/dulrey/workspace
       - run: go build hello.go
-      - run: mv hello /tmp/workspace
+      - run: mv hello /go/src/github.com/dulrey/workspace
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: /go/src/github.com/dulrey/workspace
           paths: hello
   test:
     executor: my-executor
@@ -37,10 +37,12 @@ workflows:
       - aws-ecr/build-and-push-image:
           requires:
             - test
-          workspace-root: /tmp/workspace
+          workspace-root: /go/src/github.com/dulrey/workspace
           account-url: AWS_ECR_ACCOUNT_URL
           attach-workspace: true
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           region: AWS_REGION
           repo: circleci-test
+          path: /go/src/github.com/dulrey
+          dockerfile: /go/src/github.com/dulrey/test-repo/Dockerfile
