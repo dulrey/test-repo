@@ -1,0 +1,32 @@
+version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@6.10.0
+
+executors:
+  my-executor:
+    docker:
+      - image: circleci/golang:1.9
+    working_directory: /go/src/github.com/dulrey/test-repo
+
+jobs:
+  build:
+    executor: my-executor
+    steps:
+      - checkout
+      - run: 
+          name: build
+          command: go build hello.go
+
+      - run: 
+          name: test
+          command: go test -v ./...
+
+      - aws-ecr/build-and-push-image:
+          checkout: false
+          account-url: AWS_ECR_ACCOUNT_URL
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          region: AWS_REGION
+          setup-remote-docker: true
+          repo: circleci-test
+          tag: ${CIRCLE_BRANCH}
