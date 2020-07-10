@@ -7,19 +7,17 @@ executors:
     docker:
       - image: circleci/golang:1.9
     working_directory: /go/src/github.com/dulrey/test-repo
-  my-executorr:
-    working_directory: /go/src/github.com/dulrey/test-repo
 
 jobs:
   build:
     executor: my-executor
     steps:
       - checkout
-      - run: mkdir bin
+      - run: mkdir -p /tmp/workspace
       - run: go build hello.go
-      - run: mv hello bin/
+      - run: mv hello tmp/
       - persist_to_workspace:
-          root: bin
+          root: /tmp/workspace
           paths: hello
   test:
     executor: my-executor
@@ -39,7 +37,7 @@ workflows:
       - aws-ecr/build-and-push-image:
           requires:
             - test
-          workspace-root: /go/src/github.com/dulrey/test-repo/bin
+          workspace-root: /tmp/workspace
           account-url: AWS_ECR_ACCOUNT_URL
           attach-workspace: true
           aws-access-key-id: AWS_ACCESS_KEY_ID
