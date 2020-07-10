@@ -50,4 +50,3 @@ workflows:
           region: AWS_REGION
           repo: circleci-test
           path: /tmp/workspace
-          dockerfile: /tmp/workspace/Dockerfile
