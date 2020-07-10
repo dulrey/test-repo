@@ -13,10 +13,10 @@ jobs:
     executor: my-executor
     steps:
       - checkout
-      - run: mkdir bin
-      - run: go build -o bin hello.go
+      - run: mkdir bins
+      - run: go build -o bins hello.go
       - persist_to_workspace:
-          root: bin
+          root: bins
           paths: hello
   test:
     executor: my-executor
@@ -39,7 +39,7 @@ workflows:
           executor: my-executor
           pre-steps:
             - attach_workspace:
-                at: /go/src/github.com/dulrey/test-repo/bin
+                at: /go/src/github.com/dulrey/test-repo/bins
           account-url: AWS_ECR_ACCOUNT_URL
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
