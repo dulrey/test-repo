@@ -37,6 +37,7 @@ workflows:
       - aws-ecr/build-and-push-image:
           requires:
             - test
+          working_directory: /go/src/github.com/dulrey/test-repo
           pre-steps:
             - attach_workspace:
                 at: /go/src/github.com/dulrey/test-repo/bin
