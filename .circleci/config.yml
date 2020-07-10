@@ -13,7 +13,7 @@ jobs:
     executor: my-executor
     steps:
       - checkout
-      - run: mkdir -p bin
+      - run: mkdir bin
       - run: go build -o bin hello.go
       - persist_to_workspace:
           root: bin
